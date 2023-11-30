@@ -1,0 +1,13 @@
+meta:
+  port:
+    staging: # Staging value
+    prod: # Production value
+
+sites:
+  frontend:
+    staging: # Staging value
+    prod: # Production value
+  api:
+    staging: # Staging value
+    prod: # Production value
+  instatus: https://status.select-list.xyz # Instatus Status Page URL
