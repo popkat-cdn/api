@@ -83,7 +83,7 @@ func main() {
 	}
 
 	docs.Setup()
-	
+
 	api.Setup()
 
 	r := chi.NewRouter()

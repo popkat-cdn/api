@@ -1,11 +1,11 @@
 package tests
 
 import (
-	"net/http"
 	types "Popkat/types"
-	docs "github.com/infinitybotlist/eureka/doclib"
 	"github.com/go-chi/chi/v5"
+	docs "github.com/infinitybotlist/eureka/doclib"
 	"github.com/infinitybotlist/eureka/uapi"
+	"net/http"
 )
 
 const tagName = "Tests"
@@ -18,19 +18,19 @@ func (b Router) Tag() (string, string) {
 
 func (b Router) Routes(r *chi.Mux) {
 	uapi.Route{
-		Pattern:      "/tests/ping",
-		OpId:         "ping",
-		Method:       uapi.GET,
-		Docs:         PingDocs,
-		Handler:      PingRoute,
+		Pattern: "/tests/ping",
+		OpId:    "ping",
+		Method:  uapi.GET,
+		Docs:    PingDocs,
+		Handler: PingRoute,
 	}.Route(r)
 
 	uapi.Route{
-		Pattern:      "/tests/github",
-		OpId:         "github",
-		Method:       uapi.GET,
-		Docs:         GithubDocs,
-		Handler:      GithubRoute,
+		Pattern: "/tests/github",
+		OpId:    "github",
+		Method:  uapi.GET,
+		Docs:    GithubDocs,
+		Handler: GithubRoute,
 	}.Route(r)
 }
 
@@ -39,7 +39,7 @@ func PingDocs() *docs.Doc {
 	return &docs.Doc{
 		Summary:     "Ping",
 		Description: "Check if i am working or not",
-		Resp: types.BasicAPIResp{},
+		Resp:        types.BasicAPIResp{},
 	}
 }
 
@@ -59,13 +59,13 @@ func GithubDocs() *docs.Doc {
 	return &docs.Doc{
 		Summary:     "Github",
 		Description: "Check out our Github Organization",
-		Resp: types.BasicAPIResp{},
+		Resp:        types.BasicAPIResp{},
 	}
 }
 
 func GithubRoute(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 	return uapi.HttpResponse{
-		Status: http.StatusTemporaryRedirect,
-		Redirect:   "https://github.com/selectlist",
+		Status:   http.StatusTemporaryRedirect,
+		Redirect: "https://github.com/selectlist",
 	}
 }
