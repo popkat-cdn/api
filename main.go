@@ -11,7 +11,7 @@ import (
 
 	"Popkat/api"
 	"Popkat/constants"
-	"Popkat/routes/ping"
+	"Popkat/routes/tests"
 	"Popkat/state"
 	"Popkat/types"
 
@@ -67,7 +67,7 @@ func main() {
 		ErrorStruct: types.ApiError{},
 		Info: docs.Info{
 			Title:          "Popkat",
-			TermsOfService: "https://popkat.select-list.xyz/terms",
+			TermsOfService: "https://select-list.xyz/quailfeather/docs/privacy",
 			Version:        "1.0",
 			Description:    "Advanced CDN for Select List",
 			Contact: docs.Contact{
@@ -99,7 +99,7 @@ func main() {
 
 	routers := []uapi.APIRouter{
 		// Use same order as routes folder
-		ping.Router{},
+		tests.Router{},
 	}
 
 	for _, router := range routers {
@@ -121,12 +121,12 @@ func main() {
 	docsTempl := template.Must(template.New("docs").Parse(docsHTML))
 
 	r.Get("/docs", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/docs/splashtail", http.StatusFound)
+		http.Redirect(w, r, "/docs/popkat", http.StatusFound)
 	})
 
 	r.Get("/docs/{srv}", func(w http.ResponseWriter, r *http.Request) {
 		var docMap = map[string]string{
-			"splashtail": "/openapi",
+			"popkat": "/openapi",
 		}
 
 		srv := chi.URLParam(r, "srv")
