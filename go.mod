@@ -5,12 +5,16 @@ go 1.21.4
 require (
 	github.com/cloudflare/tableflip v1.2.3
 	github.com/infinitybotlist/eureka v0.5.0
+	github.com/minio/minio-go v6.0.14+incompatible
 )
 
 require (
+	github.com/go-ini/ini v1.67.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/puddle/v2 v2.2.1 // indirect
+	github.com/mitchellh/go-homedir v1.1.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 )
 

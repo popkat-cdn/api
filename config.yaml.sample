@@ -6,6 +6,13 @@ meta:
   port:
     staging: # Staging value
     prod: # Production value
+  spaces:
+    endpoint: # Digital Ocean - Origin Endpoint URL
+    buckets:
+      - 
+    access_key: # Digital Ocean - Access Key
+    access_secret: # Digital Ocean - Access Secret
+    ssl: # Enable SSL?
 
 sites:
   frontend:

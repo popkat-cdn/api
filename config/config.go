@@ -56,4 +56,13 @@ type Meta struct {
 	PostgresURL string          `yaml:"postgresql" default:"postgresql://postgres@0.0.0.0" comment:"PostgreSQL URL" validate:"required"`
 	RedisURL    Differs[string] `yaml:"redis" default:"redis://0.0.0.0/1" comment:"Redis URL" validate:"required"`
 	Port        Differs[string] `yaml:"port" default:":8081" comment:"Port to run the server on" validate:"required"`
+	Spaces      Spaces          `yaml:"spaces" validate:"required"`
+}
+
+type Spaces struct {
+	Endpoint     string   `yaml:"endpoint" comment:"Digital Ocean - Origin Endpoint URL" validate:"required"`
+	Buckets      []string `yaml:"buckets" comment:"Digital Ocean - Bucket Names" validate:"required"`
+	AccessKey    string   `yaml:"access_key" comment:"Digital Ocean - Access Key" validate:"required"`
+	AccessSecret string   `yaml:"access_secret" comment:"Digital Ocean - Access Secret" validate:"required"`
+	SSL          bool     `yaml:"ssl" comment:"Enable SSL?" validate:"required"`
 }
