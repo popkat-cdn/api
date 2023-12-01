@@ -4,6 +4,8 @@ import (
 	"Popkat/constants"
 	"Popkat/state"
 	"Popkat/types"
+	"net/http"
+
 	"github.com/infinitybotlist/eureka/uapi"
 )
 
@@ -16,9 +18,19 @@ func (d DefaultResponder) New(err string, ctx map[string]string) any {
 	}
 }
 
+const (
+	TargetTypeUser   = "User"
+	TargetTypeServer = "Server"
+)
+
+// Authorizes a request
+func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpResponse, bool) {
+	return uapi.AuthData{}, uapi.HttpResponse{}, true
+}
+
 func Setup() {
 	uapi.SetupState(uapi.UAPIState{
-		Logger:    state.Logger,
+		Logger:  state.Logger,
 		Context: state.Context,
 		Constants: &uapi.UAPIConstants{
 			ResourceNotFound:    constants.ResourceNotFound,
@@ -30,5 +42,10 @@ func Setup() {
 			BodyRequired:        constants.BodyRequired,
 		},
 		DefaultResponder: DefaultResponder{},
+		Authorize:        Authorize,
+		AuthTypeMap: map[string]string{
+			TargetTypeUser:   "user",
+			TargetTypeServer: "server",
+		},
 	})
 }
