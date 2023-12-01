@@ -39,12 +39,12 @@ func PingDocs() *docs.Doc {
 	return &docs.Doc{
 		Summary:     "Ping",
 		Description: "Check if i am working or not",
-		Resp:        types.BasicAPIResp{},
+		Resp:        types.MessageResp{},
 	}
 }
 
 func PingRoute(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
-	Response := &types.BasicAPIResp{
+	Response := &types.MessageResp{
 		Message: "Hello, world!",
 	}
 
@@ -59,7 +59,7 @@ func GithubDocs() *docs.Doc {
 	return &docs.Doc{
 		Summary:     "Github",
 		Description: "Check out our Github Organization",
-		Resp:        types.BasicAPIResp{},
+		Resp:        types.MessageResp{},
 	}
 }
 

@@ -47,5 +47,6 @@ func Setup() {
 			TargetTypeUser:   "user",
 			TargetTypeServer: "server",
 		},
+		Redis: state.Redis,
 	})
 }

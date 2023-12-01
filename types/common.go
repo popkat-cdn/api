@@ -5,6 +5,6 @@ type ApiError struct {
 	Message string            `json:"message" description:"Message of the error"`
 }
 
-type BasicAPIResp struct {
+type MessageResp struct {
 	Message string `json:"message" description:"Response Message for Endpoint"`
 }

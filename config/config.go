@@ -53,5 +53,7 @@ type Sites struct {
 }
 
 type Meta struct {
-	Port Differs[string] `yaml:"port" default:":8081" comment:"Port to run the server on" validate:"required"`
+	PostgresURL string          `yaml:"postgresql" default:"postgresql://postgres@0.0.0.0" comment:"PostgreSQL URL" validate:"required"`
+	RedisURL    Differs[string] `yaml:"redis" default:"redis://0.0.0.0/1" comment:"Redis URL" validate:"required"`
+	Port        Differs[string] `yaml:"port" default:":8081" comment:"Port to run the server on" validate:"required"`
 }

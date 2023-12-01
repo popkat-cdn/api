@@ -1,4 +1,8 @@
 meta:
+  postgresql: postgresql://postgres@0.0.0.0 # PostgreSQL URL
+  redis:
+    staging: # Staging value
+    prod: # Production value
   port:
     staging: # Staging value
     prod: # Production value

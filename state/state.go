@@ -10,11 +10,16 @@ import (
 	"github.com/go-playground/validator/v10/non-standard/validators"
 	"github.com/infinitybotlist/eureka/genconfig"
 	"github.com/infinitybotlist/eureka/snippets"
+	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 	"gopkg.in/yaml.v3"
 )
 
 var (
+	Pool  *pgxpool.Pool
+	Redis *redis.Client
+
 	Logger    *zap.Logger
 	Context   = context.Background()
 	Validator = validator.New()
@@ -49,4 +54,18 @@ func Setup() {
 	}
 
 	Logger = snippets.CreateZap()
+
+	Pool, err = pgxpool.New(Context, Config.Meta.PostgresURL)
+
+	if err != nil {
+		panic(err)
+	}
+
+	rOptions, err := redis.ParseURL(Config.Meta.RedisURL.Parse())
+
+	if err != nil {
+		panic(err)
+	}
+
+	Redis = redis.NewClient(rOptions)
 }
