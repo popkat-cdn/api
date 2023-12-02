@@ -11,7 +11,6 @@ import (
 
 	"Popkat/api"
 	"Popkat/constants"
-	"Popkat/discord"
 	"Popkat/routes/tests"
 	"Popkat/state"
 	"Popkat/types"
@@ -86,8 +85,6 @@ func main() {
 	docs.Setup()
 
 	api.Setup()
-
-	discord.Setup()
 
 	r := chi.NewRouter()
 
