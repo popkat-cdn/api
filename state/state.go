@@ -6,6 +6,7 @@ import (
 
 	"Popkat/config"
 
+	"github.com/bwmarrin/discordgo"
 	"github.com/go-playground/validator/v10"
 	"github.com/go-playground/validator/v10/non-standard/validators"
 	"github.com/infinitybotlist/eureka/genconfig"
@@ -19,6 +20,7 @@ import (
 
 var (
 	Pool      *pgxpool.Pool
+	Discord   *discordgo.Session
 	Redis     *redis.Client
 	Spaces    *minio.Client
 	Logger    *zap.Logger
@@ -80,6 +82,12 @@ func Setup() {
 	if err != nil {
 		panic(err)
 	}
-
 	Spaces = DO
+
+	// Discord
+	dgo, err := discordgo.New("Bot " + Config.Meta.Discord.Token)
+	if err != nil {
+		panic(err)
+	}
+	Discord = dgo
 }

@@ -56,6 +56,7 @@ type Meta struct {
 	PostgresURL string          `yaml:"postgresql" default:"postgresql://postgres@0.0.0.0" comment:"PostgreSQL URL" validate:"required"`
 	RedisURL    Differs[string] `yaml:"redis" default:"redis://0.0.0.0/1" comment:"Redis URL" validate:"required"`
 	Port        Differs[string] `yaml:"port" default:":8081" comment:"Port to run the server on" validate:"required"`
+	Discord     Discord         `yaml:"discord" validate:"required"`
 	Spaces      Spaces          `yaml:"spaces" validate:"required"`
 }
 
@@ -65,4 +66,10 @@ type Spaces struct {
 	AccessKey    string   `yaml:"access_key" comment:"Digital Ocean - Access Key" validate:"required"`
 	AccessSecret string   `yaml:"access_secret" comment:"Digital Ocean - Access Secret" validate:"required"`
 	SSL          bool     `yaml:"ssl" comment:"Enable SSL?" validate:"required"`
+}
+
+type Discord struct {
+	ClientID     string `yaml:"client_id" comment:"Discord Client ID" validate:"required"`
+	ClientSecret string `yaml:"client_secret" comment:"Discord Client Secret" validate:"required"`
+	Token        string `yaml:"token" comment:"Discord Bot Token" validate:"required"`
 }

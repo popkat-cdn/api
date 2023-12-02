@@ -6,6 +6,10 @@ meta:
   port:
     staging: # Staging value
     prod: # Production value
+  discord:
+    client_id: # Discord Client ID
+    client_secret: # Discord Client Secret
+    token: # Discord Bot Token
   spaces:
     endpoint: # Digital Ocean - Origin Endpoint URL
     buckets:
