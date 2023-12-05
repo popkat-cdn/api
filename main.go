@@ -11,6 +11,7 @@ import (
 
 	"Popkat/api"
 	"Popkat/constants"
+	"Popkat/routes/auth"
 	"Popkat/routes/tests"
 	"Popkat/state"
 	"Popkat/types"
@@ -66,9 +67,9 @@ func main() {
 		URL:         state.Config.Sites.API.Parse(),
 		ErrorStruct: types.ApiError{},
 		Info: docs.Info{
-			Title:          "Popkat",
-			TermsOfService: "https://select-list.xyz/quailfeather/docs/privacy",
-			Version:        "1.0",
+			Title:          "Popkat CDN",
+			TermsOfService: "https://popkat.select-list.xyz/legal#tos",
+			Version:        "0.1",
 			Description:    "Advanced CDN for Select List",
 			Contact: docs.Contact{
 				Name:  "Select List",
@@ -83,6 +84,9 @@ func main() {
 	}
 
 	docs.Setup()
+
+	docs.AddSecuritySchema("User", "User-Auth", "Requires a user token. Should be prefixed with `User ` in `Authorization` header.")
+	docs.AddSecuritySchema("Service", "Service-Auth", "Requires a service token. Should be prefixed with `Service ` in `Authorization` header.")
 
 	api.Setup()
 
@@ -99,6 +103,7 @@ func main() {
 
 	routers := []uapi.APIRouter{
 		// Use same order as routes folder
+		auth.Router{},
 		tests.Router{},
 	}
 

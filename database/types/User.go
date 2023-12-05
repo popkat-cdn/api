@@ -1,9 +1,9 @@
 package types
 
 type User struct {
-	Username   string
-	UserID     string
-	Avatar     string
-	Token      string
-	StaffPerms []string
+	Username string
+	UserID   string
+	Banned   bool
+	Avatar   string
+	Token    string
 }

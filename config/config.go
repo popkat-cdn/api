@@ -21,7 +21,6 @@ func init() {
 	}
 }
 
-// Common struct for values that differ between staging and production environments
 type Differs[T any] struct {
 	Staging T `yaml:"staging" comment:"Staging value" validate:"required"`
 	Prod    T `yaml:"prod" comment:"Production value" validate:"required"`
@@ -60,9 +59,8 @@ type Meta struct {
 }
 
 type Spaces struct {
-	Endpoint     string   `yaml:"endpoint" comment:"Digital Ocean - Origin Endpoint URL" validate:"required"`
-	Buckets      []string `yaml:"buckets" comment:"Digital Ocean - Bucket Names" validate:"required"`
-	AccessKey    string   `yaml:"access_key" comment:"Digital Ocean - Access Key" validate:"required"`
-	AccessSecret string   `yaml:"access_secret" comment:"Digital Ocean - Access Secret" validate:"required"`
-	SSL          bool     `yaml:"ssl" comment:"Enable SSL?" validate:"required"`
+	Endpoint     string `yaml:"endpoint" comment:"Digital Ocean - Origin Endpoint URL" validate:"required"`
+	AccessKey    string `yaml:"access_key" comment:"Digital Ocean - Access Key" validate:"required"`
+	AccessSecret string `yaml:"access_secret" comment:"Digital Ocean - Access Secret" validate:"required"`
+	SSL          bool   `yaml:"ssl" comment:"Enable SSL?" validate:"required"`
 }
