@@ -1,17 +1,27 @@
 package auth
 
 import (
-	"Popkat/api"
+	dbtypes "Popkat/database/types"
 	"Popkat/state"
 	"Popkat/types"
+	"context"
+	"fmt"
+	"log"
 	"net/http"
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/google/uuid"
 	docs "github.com/infinitybotlist/eureka/doclib"
 	"github.com/infinitybotlist/eureka/uapi"
 	"github.com/infinitybotlist/eureka/uapi/ratelimit"
 	"go.uber.org/zap"
+
+	firebase "firebase.google.com/go"
+
+	"google.golang.org/api/option"
+
+	"github.com/goombaio/namegenerator"
 )
 
 // Tags
@@ -36,12 +46,6 @@ func (b Router) Routes(r *chi.Mux) {
 		Method:  uapi.GET,
 		Docs:    LoginDocs,
 		Handler: LoginRoute,
-		Auth: []uapi.AuthType{
-			{
-				URLVar: "id",
-				Type:   api.TargetTypeUser,
-			},
-		},
 	}.Route(r)
 }
 
@@ -50,7 +54,16 @@ func LoginDocs() *docs.Doc {
 	return &docs.Doc{
 		Summary:     "Login",
 		Description: "Recieve a temporary token to access our panel on the website.",
-		Resp:        Message{},
+		Resp:        dbtypes.User{},
+		Params: []docs.Parameter{
+			{
+				Name:        "token",
+				In:          "query",
+				Description: "Token provided by Firebase Auth",
+				Required:    true,
+				Schema:      docs.IdSchema,
+			},
+		},
 	}
 }
 
@@ -60,7 +73,7 @@ func LoginRoute(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		MaxRequests: 10,
 		Bucket:      "auth/login",
 		Identifier: func(r *http.Request) string {
-			return d.Auth.ID
+			return r.RemoteAddr
 		},
 	}.Limit(d.Context, r)
 
@@ -79,12 +92,58 @@ func LoginRoute(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	Response := &Message{
-		Message: "reee",
+	Token := r.URL.Query().Get("token")
+
+	if Token == "" {
+		return uapi.HttpResponse{
+			Json: types.ApiError{
+				Message: "You are missing a query, or path. Please check our documentation site to check what you are missing.",
+			},
+			Status: http.StatusBadRequest,
+		}
+	}
+
+	opt := option.WithCredentialsFile("firebase_service.json")
+	app, err := firebase.NewApp(context.Background(), nil, opt)
+	if err != nil {
+		fmt.Errorf("error initializing app: %v", err)
+	}
+
+	client, err := app.Auth(state.Context)
+	if err != nil {
+		log.Fatalf("error getting Auth client: %v\n", err)
+	}
+
+	token, err := client.VerifyIDToken(state.Context, Token)
+	if err != nil {
+		// this shit be fake asf bro
+		return uapi.HttpResponse{
+			Json: types.ApiError{
+				Message: "The token provided in the 'token' query is invalid.",
+			},
+			Status: http.StatusBadRequest,
+		}
+	}
+
+	/*
+		{
+			uid: token.uid,
+			email: token.firebase.identities.email[0]
+			auth_time: token.auth_time,
+			expire_at: token.exp
+		}
+	*/
+
+	user := &dbtypes.User{
+		Username: namegenerator.NewNameGenerator(time.Now().UTC().UnixNano()).Generate(),
+		UserID:   token.UID,
+		Banned:   false,
+		Avatar:   "https://popkat.select-list.xyz/logo.png",
+		Token:    uuid.NewString(),
 	}
 
 	return uapi.HttpResponse{
 		Status: http.StatusOK,
-		Json:   Response,
+		Json:   user,
 	}
 }
