@@ -11,6 +11,7 @@ import (
 
 	"Popkat/api"
 	"Popkat/constants"
+	"Popkat/database"
 	"Popkat/routes/auth"
 	"Popkat/routes/tests"
 	"Popkat/state"
@@ -89,6 +90,7 @@ func main() {
 	docs.AddSecuritySchema("Service", "Service-Auth", "Requires a service token. Should be prefixed with `Service ` in `Authorization` header.")
 
 	api.Setup()
+	database.Cum()
 
 	r := chi.NewRouter()
 
